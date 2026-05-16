@@ -1,0 +1,24 @@
+# Core Jupyter
+jupyterlab
+ipykernel
+ipywidgets
+
+# Scientific Computing
+numpy
+scipy
+pandas
+
+# Machine Learning
+scikit-learn
+
+# Visualization
+matplotlib
+
+# Deep Learning - PyTorch
+torch
+
+# Deep Learning - TensorFlow / Keras
+tensorflow
+
+# Utilities
+tqdm

@@ -1,8 +1,25 @@
-__pycache__/
-*.py[cod]
-.ipynb_checkpoints/
-.venv/
+# Environment variables
+*.env
+
+# Python virtual environment
 venv/
-env/
-.env
+
+# Binary files
+*.bin
+
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# VS Code settings (optional but useful)
+.vscode/
+
+# Chroma vector store or database files (optional)
+*.sqlite3
+chroma_db/
+
+# Jupyter Notebook checkpoints (optional)
+.ipynb_checkpoints/
+
+# MacOS files
 .DS_Store

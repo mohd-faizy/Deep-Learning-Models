@@ -17,18 +17,30 @@ Long Short-Term Memory (LSTM) is a highly sophisticated recurrent neural network
 ## The Mathematics
 At time step $t$, with input $x_t$ and previous states $h_{t-1}, C_{t-1}$:
 - **1. Forget Gate:**
-  $f_t = \sigma(W_{fx} x_t + W_{fh} h_{t-1} + b_f)$
+
+  $$f_t = \sigma(W_{fx} x_t + W_{fh} h_{t-1} + b_f)$$
+
 - **2. Input Gate:**
-  $i_t = \sigma(W_{ix} x_t + W_{ih} h_{t-1} + b_i)$
-- **3. Candidate Cell State:** $\tilde{C}_t = \tanh(W_{Cx} x_t + W_{Ch} h_{t-1} + b_C)$
+
+  $$i_t = \sigma(W_{ix} x_t + W_{ih} h_{t-1} + b_i)$$
+
+- **3. Candidate Cell State:** 
+
+  $$\tilde{C}_t = \tanh(W_{Cx} x_t + W_{Ch} h_{t-1} + b_C)$$
 
 - **4. Cell State Update:**
-  $C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$
+
+  $$C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$$
+  
   *(Note: $\odot$ denotes the Hadamard product / element-wise multiplication. This specific equation is the core reason LSTMs avoid vanishing gradients.)*
+
 - **5. Output Gate:**
-  $o_t = \sigma(W_{ox} x_t + W_{oh} h_{t-1} + b_o)$
+
+  $$o_t = \sigma(W_{ox} x_t + W_{oh} h_{t-1} + b_o)$$
+
 - **6. Hidden State Update:**
-  $h_t = o_t \odot \tanh(C_t)$
+
+  $$h_t = o_t \odot \tanh(C_t)$$
 
 ## Pros
 - **Robust Long-Term Dependencies**: Capable of successfully learning correlations over hundreds or thousands of time steps, vastly outperforming vanilla RNNs.

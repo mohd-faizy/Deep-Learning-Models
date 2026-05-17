@@ -15,14 +15,23 @@ Introduced in 2014 by Kyunghyun Cho et al., the Gated Recurrent Unit (GRU) is a 
 ## The Mathematics
 At time step $t$, with input $x_t$ and previous hidden state $h_{t-1}$:
 - **1. Update Gate:**
-  $z_t = \sigma(W_{zx} x_t + W_{zh} h_{t-1} + b_z)$
+
+  $$z_t = \sigma(W_{zx} x_t + W_{zh} h_{t-1} + b_z)$$
+
 - **2. Reset Gate:**
-  $r_t = \sigma(W_{rx} x_t + W_{rh} h_{t-1} + b_r)$
+
+  $$r_t = \sigma(W_{rx} x_t + W_{rh} h_{t-1} + b_r)$$
+
 - **3. Candidate Hidden State:**
-  $\tilde{h}_t = \tanh(W_{hx} x_t + W_{hh} (r_t \odot h_{t-1}) + b_h)$
+
+  $$\tilde{h}_t = \tanh(W_{hx} x_t + W_{hh} (r_t \odot h_{t-1}) + b_h)$$
+  
   *(Note how the reset gate $r_t$ modulates the influence of the previous hidden state before the non-linear transformation.)*
+
 - **4. Final Hidden State Update:**
-  $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$
+
+  $$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$$
+  
   *(The update gate $z_t$ acts as a linear interpolator between the old state and the new candidate state. This additive equation allows unimpeded gradient flow during BPTT.)*
 
 ## Pros

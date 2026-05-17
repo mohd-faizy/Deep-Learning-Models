@@ -1,39 +1,46 @@
 # Recurrent Neural Network (RNN)
 
 ## Detailed Specification
-A Recurrent Neural Network (RNN) is a class of artificial neural networks where connections between nodes can create a cycle, allowing output from some nodes to affect subsequent input to the same nodes. This makes them applicable to processing sequences of inputs. Unlike feedforward neural networks, RNNs can use their internal state (memory) to process sequences of inputs.
+A Recurrent Neural Network (RNN) represents a paradigm shift from standard feedforward networks by introducing the concept of "memory" or "state." Designed specifically to process sequential or temporal data, RNNs contain cyclic connections that allow the output of a node at a given time step to be fed back into the network at the next time step. This recurrent loop allows the network to maintain a hidden state that acts as a summary of all previously processed inputs in the sequence. By unrolling the network through time, an RNN can be viewed as a very deep feedforward network with identical, shared weights at every layer.
 
 ## Technical Specification
-- **Architecture**: Cyclic connections allowing time-dependent data processing.
-- **Hidden State**: Serves as the network's memory, capturing information about what has been calculated so far.
-- **Backpropagation Through Time (BPTT)**: The algorithm used to train RNNs, unrolling the network through the time sequence.
-- **Input/Output Types**: One-to-Many, Many-to-One, Many-to-Many (Seq2Seq).
+- **Architecture Type**: Sequential processing network with temporal cyclic connections.
+- **Core Mechanism**: 
+  - **Hidden State ($h_t$)**: The internal memory of the network, updated continuously as new elements in a sequence are processed.
+  - **Weight Sharing**: The weight matrices governing input-to-hidden, hidden-to-hidden, and hidden-to-output transformations are strictly shared across all time steps, enforcing the idea that the same transition rules apply regardless of the sequence position.
+- **Training Algorithm**: Backpropagation Through Time (BPTT). The network is unrolled for the entire length of the sequence, and standard backpropagation is applied to the unrolled graph. Gradients are then summed across all time steps to update the shared weights.
+- **Sequence Mapping Configurations**:
+  - One-to-Many: e.g., Image Captioning (Image $\rightarrow$ Sequence of words).
+  - Many-to-One: e.g., Sentiment Analysis (Sequence of words $\rightarrow$ Positive/Negative).
+  - Many-to-Many: e.g., Machine Translation (Sequence $\rightarrow$ Sequence) or Frame-by-frame video classification.
 
 ## The Mathematics
-At time step $t$, the RNN receives input $x_t$ and the hidden state from the previous time step $h_{t-1}$.
-The new hidden state $h_t$ is computed as:
-$$h_t = \tanh(W_{hx} x_t + W_{hh} h_{t-1} + b_h)$$
-Where $W_{hx}$ are weights for the input, $W_{hh}$ are weights for the recurrent hidden state, and $b_h$ is the bias.
-The output $y_t$ at time step $t$ is computed from the hidden state:
-$$y_t = W_{yh} h_t + b_y$$
-(Note: An activation function like softmax is typically applied to $y_t$ for classification).
+- **Hidden State Update:**
+  $h_t = \tanh(W_{hx} x_t + W_{hh} h_{t-1} + b_h)$
+  Where $x_t$ is the input vector at time $t$, $h_{t-1}$ is the hidden state from the previous time step, $W_{hx}$ and $W_{hh}$ are the input and recurrent weight matrices respectively, and $b_h$ is the bias. The $\tanh$ function squashes values between -1 and 1 to prevent immediate explosive growth.
+- **Output Calculation:**
+  $y_t = W_{yh} h_t + b_y$
+  Where $y_t$ is the raw logit output at time $t$, which is usually passed through a Softmax for classification.
+- **Backpropagation Through Time (BPTT) Gradient:**
+  $\frac{\partial L}{\partial W_{hh}} = \sum_{t=1}^{T} \frac{\partial L_t}{\partial W_{hh}}$
+  Because $h_t$ depends on $h_{t-1}$, applying the chain rule yields a product of Jacobians:
+  $\frac{\partial h_t}{\partial h_k} = \prod_{i=k+1}^t \frac{\partial h_i}{\partial h_{i-1}} = \prod_{i=k+1}^t W_{hh}^T \text{diag}(1 - \tanh^2(\dots))$
+  This repeated multiplication of the $W_{hh}$ matrix leads directly to the vanishing/exploding gradient problem.
 
 ## Pros
-- **Handles Sequential Data**: Naturally designed to process data of variable length and temporal nature.
-- **Shared Parameters**: Shares weights across all time steps, reducing the number of parameters compared to unrolled networks.
-- **Maintains Context**: Theoretical ability to remember information from past inputs.
+- **Variable Length Input**: Capable of processing sequences of strictly arbitrary lengths without requiring padding or fixed-size architectural changes.
+- **Temporal Context**: Integrates historical context into current predictions, making it suitable for dynamic environments and time-series.
+- **Parameter Efficiency**: Compared to a feedforward network processing a concatenated sequence, RNNs have a tiny parameter footprint due to aggressive weight sharing across time steps.
 
 ## Cons
-- **Vanishing/Exploding Gradients**: During BPTT, gradients can become extremely small (vanishing) or extremely large (exploding), making it difficult to learn long-range dependencies.
-- **Slow Training**: Sequential processing nature prevents parallelization across time steps during training.
-- **Short-term Memory**: Standard RNNs struggle in practice to remember information for more than a few time steps.
+- **Vanishing/Exploding Gradients**: The dominant flaw of vanilla RNNs. During BPTT, gradients propagated backwards through many time steps will exponentially shrink to zero (vanishing) or grow to infinity (exploding).
+- **Catastrophic Forgetting**: In practice, vanilla RNNs suffer from "short-term memory." They are empirically incapable of connecting information separated by more than 5-10 time steps, losing critical long-range dependencies.
+- **Strictly Sequential Execution**: Computations at step $t$ require the completion of step $t-1$. This prevents parallelization over the temporal dimension, making training extremely slow on modern parallel hardware like GPUs.
 
 ## Use Cases
-- Time series prediction and forecasting.
-- Natural Language Processing (NLP) tasks like text classification and sentiment analysis.
-- Speech recognition.
-- Music generation.
+- Legacy Natural Language Processing (Character-level language modeling, simple text generation).
+- Basic time-series forecasting (e.g., weather prediction, stock market trends) over very short horizons.
+- Speech recognition pipelines (though heavily superseded by LSTMs and Transformers).
 
 ## Limitations
-- Fundamentally limited by the vanishing gradient problem, making standard RNNs almost obsolete for complex tasks in favor of LSTMs, GRUs, or Transformers.
-- Computational bottleneck due to strictly sequential processing.
+- Vanilla RNNs are rarely used in modern production environments due to the vanishing gradient problem; they serve primarily as a pedagogical stepping stone to LSTMs and GRUs.

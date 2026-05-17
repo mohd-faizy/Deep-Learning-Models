@@ -20,8 +20,8 @@ At time step $t$, with input $x_t$ and previous states $h_{t-1}, C_{t-1}$:
   $f_t = \sigma(W_{fx} x_t + W_{fh} h_{t-1} + b_f)$
 - **2. Input Gate:**
   $i_t = \sigma(W_{ix} x_t + W_{ih} h_{t-1} + b_i)$
-- **3. Candidate Cell State:**
-  $\tilde{C}_t = \tanh(W_{Cx} x_t + W_{Ch} h_{t-1} + b_C)$
+- **3. Candidate Cell State:** $\tilde{C}_t = \tanh(W_{Cx} x_t + W_{Ch} h_{t-1} + b_C)$
+
 - **4. Cell State Update:**
   $C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$
   *(Note: $\odot$ denotes the Hadamard product / element-wise multiplication. This specific equation is the core reason LSTMs avoid vanishing gradients.)*

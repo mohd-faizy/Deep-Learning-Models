@@ -16,6 +16,7 @@ matplotlib
 
 # Deep Learning - PyTorch
 torch
+torchvision
 
 # Deep Learning - TensorFlow / Keras
 tensorflow

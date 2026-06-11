@@ -2,7 +2,7 @@
 
 # Deep Learning Models Implementation
 
-**A comprehensive notebook repository covering 17 neural-network families in PyTorch, TensorFlow/Keras, and pure-Python/NumPy from-scratch implementations.**
+**A comprehensive notebook repository covering 19 neural-network families in PyTorch, TensorFlow/Keras, and pure-Python/NumPy from-scratch implementations.**
 
 <p>
   <a href="https://github.com/mohd-faizy/Deep-Learning-Models/blob/main/LICENSE">
@@ -37,7 +37,7 @@
 
 By exploring this repository, you will be able to:
 
-- Understand the mathematical foundations of 17 distinct neural network architectures.
+- Understand the mathematical foundations of 19 distinct neural network architectures.
 - Implement forward and backward passes from scratch without relying on autograd.
 - Translate theoretical concepts into working code using PyTorch and TensorFlow.
 - Compare framework-specific paradigms (e.g., PyTorch's dynamic computational graphs vs. TensorFlow's ecosystem).
@@ -88,7 +88,7 @@ jupyter lab
 
 ## Model Implementations Curriculum
 
-The repository is structured around 17 distinct neural network families.
+The repository is structured around 19 distinct neural network families.
 
 | # | Architecture | Key Concepts | Directory |
 |:---:|:---|:---|:---|
@@ -109,6 +109,8 @@ The repository is structured around 17 distinct neural network families.
 | 15 | **Spiking Neural Network (SNN)** | Biologically inspired leaky integrate-and-fire | `15_spiking_neural_network_SNN` |
 | 16 | **Residual Network (ResNet)** | Skip connections, deep training | `16_residual_network_ResNet` |
 | 17 | **Diffusion Model (DDPM)** | Forward noise, reverse denoising | `17_diffusion_model_DDPM` |
+| 18 | **U-Net** | Encoder-decoder, skip connections, semantic segmentation | `18_unet_UNet` |
+| 19 | **Vision Transformer (ViT)** | Patch embeddings, self-attention on images | `19_vision_transformer_ViT` |
 
 ---
 
@@ -136,7 +138,7 @@ Deep-Learning-Models/
 |   |-- rnn_tf.ipynb
 |   `-- rnn_from_scratch.py
 |
-|-- ... (and so on for all 17 models)
+|-- ... (and so on for all 19 models)
 ```
 
 ---
